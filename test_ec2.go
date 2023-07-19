@@ -6,8 +6,10 @@ import (
 	"log"
 	"os"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 )
 
 func main() {
@@ -26,7 +28,20 @@ func main() {
 		Credentials: cfg.Credentials,
 		Region:      cfg.Region,
 	})
-	input := &ec2.DescribeInstancesInput{}
+
+	var filters []types.Filter
+
+	// Filter for instances that are running
+	filters = append(filters, types.Filter{
+		Name: aws.String("instance-state-name"),
+		Values: []string{
+			"running",
+		},
+	})
+
+	input := &ec2.DescribeInstancesInput{
+		Filters: filters,
+	}
 	result, err := svc.DescribeInstances(context.Background(), input)
 	if err != nil {
 		log.Fatal(err)

@@ -1,6 +1,6 @@
 # ec2_describe_instances
 
-This repository contains a small code snippet to check your IAM identity can use the AWS Go SDK v2 to describe EC2 instances. 
+This repository contains a small code snippet to check your IAM identity can use the AWS Go SDK v2 to describe running EC2 instances. 
 
 Usage:
 
